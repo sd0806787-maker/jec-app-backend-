@@ -107,22 +107,37 @@ EXPO_PUBLIC_ALLOW_TUNNEL=true
 net. That APK only works while the backend and ngrok are running on this
 machine — it is a temporary bridge, not a permanent fix.
 
-### Current production bridge (temporary)
+### Current production backend (ngrok bridge)
 
-The Render service at `https://jec-backend.onrender.com` is still running an
-older build that does not expose the `/api/*` routes, so the `production` EAS
-environment currently points at the ngrok tunnel instead:
+The Render starter plan requires billing, and the existing
+`jec-backend.onrender.com` service still runs an older build with no `/api/*`
+routes. Production therefore uses the reserved ngrok domain:
 
 ```
 EXPO_PUBLIC_API_URL=https://stalling-staunch-untimely.ngrok-free.dev
 EXPO_PUBLIC_ALLOW_TUNNEL=true
 ```
 
-An OTA update with these values has been published to the `production` channel.
-It only works while the local backend (port 3000) and the ngrok tunnel are
-online. To return to a permanent setup, redeploy `jec-backend/` to Render with
-the current code, then set `EXPO_PUBLIC_API_URL` back to the Render URL, remove
-`EXPO_PUBLIC_ALLOW_TUNNEL`, and publish another update.
+The local backend and tunnel are managed by user-level systemd services, so
+they start on login and restart automatically if they crash:
+
+```bash
+systemctl --user status jec-backend ngrok
+systemctl --user restart jec-backend ngrok
+journalctl --user -u ngrok -f
+```
+
+The machine must stay powered and online, and the user must remain logged in.
+To keep the services running even before login, run this once:
+
+```bash
+sudo loginctl enable-linger "$USER"
+```
+
+To move to a hosted backend later, deploy `jec-backend/` to Render (see below),
+then set `EXPO_PUBLIC_API_URL` to the Render URL, delete
+`EXPO_PUBLIC_ALLOW_TUNNEL` from the production environment, and publish a new
+update.
 
 ## Features
 
