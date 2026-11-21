@@ -1,0 +1,44 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+#
+# Deploy with:  Render Dashboard -> New -> Blueprint -> select this repo.
+# The app (Expo) and the backend (jec-backend/) live in the same repository,
+# so rootDir tells Render which folder to build and start.
+#
+# After the first deploy, copy the service URL (for example
+# https://jec-backend.onrender.com) and use it as EXPO_PUBLIC_API_URL — see
+# README.md -> "Deploying the backend".
+
+services:
+  - type: web
+    # Render service names are account-unique; the old `jec-backend` service is
+    # still running stale code. Use a new name for the rebuilt service.
+    name: jec-backend-v2
+    runtime: node
+    rootDir: jec-backend
+    region: singapore
+    # Keep the service always on. The free plan sleeps after inactivity and the
+    # first request after a sleep can take ~1 minute, which makes the app show
+    # "Request timed out". Switch to "free" only for testing.
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: '20'
+      - key: PORT
+        value: 3000
+      - key: BODY_LIMIT
+        value: 25mb
+      # Set these in the Render dashboard when deploying (sync: false means
+      # Render asks you for the value and never writes it into this file).
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false

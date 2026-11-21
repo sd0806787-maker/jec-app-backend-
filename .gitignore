@@ -31,7 +31,15 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
+.env.*
+!.env.example
 .env*.local
+
+# backend secrets, student data and dependencies
+jec-backend/.env
+jec-backend/node_modules/
+jec-backend/data/students.json
 
 # typescript
 *.tsbuildinfo

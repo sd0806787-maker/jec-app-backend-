@@ -1,0 +1,36 @@
+{
+  "students": [
+    {
+      "roll": "CS2023001",
+      "name": "Example Student",
+      "email": "cs2023001@student.jec.local",
+      "branch": "Computer Science and Engineering",
+      "semester": 4,
+      "section": "A",
+      "academicYear": "2024-2025",
+      "subjectsCount": 2,
+      "overall": {
+        "attended": 0,
+        "recorded": 0,
+        "status": "Regular",
+        "percentage": 0
+      },
+      "subjects": [
+        {
+          "code": "CSE301",
+          "subject": "Data Structures",
+          "attended": 0,
+          "recorded": 0,
+          "percentage": 0
+        },
+        {
+          "code": "CSE302",
+          "subject": "Database Systems",
+          "attended": 0,
+          "recorded": 0,
+          "percentage": 0
+        }
+      ]
+    }
+  ]
+}
