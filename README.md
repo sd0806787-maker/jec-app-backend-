@@ -284,8 +284,8 @@ service.
    npx eas-cli@latest env:set --name EXPO_PUBLIC_API_URL \
      --value <RENDER_URL> \
      --environment preview --visibility plaintext
-   npx eas-cli@latest env:unset --name EXPO_PUBLIC_ALLOW_TUNNEL \
-     --environment production
+   npx eas-cli@latest env:delete production \
+     --variable-name EXPO_PUBLIC_ALLOW_TUNNEL --non-interactive
    ```
 
 7. Ship it:
